@@ -1,12 +1,17 @@
-import './App.css';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
+import { getCoinsMarket } from './services/api';
 
 function App() {
-  return (
-    <div className="App">
-      <Button variant="outline-warning">Click Me</Button>
-    </div>
-  );
+  useEffect(() => {
+    const getCoinsMarketParams = {
+      vs_currency: 'eur',
+      per_page: 10,
+    };
+    getCoinsMarket(getCoinsMarketParams);
+  }, []);
+
+  return null;
 }
 
 export default App;
