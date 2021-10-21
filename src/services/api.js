@@ -6,10 +6,10 @@ const instance = axios.create({
 });
 
 const buildParams = params => {
-  if (!params) return '';
+  if (!params) return;
 
   const queryArr = Object.keys(params).map(key => {
-    if (params[key]) {
+    if (params[key] !== undefined) {
       return `${key}=${params[key]}`;
     }
   });

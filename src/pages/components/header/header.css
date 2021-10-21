@@ -7,4 +7,5 @@
 a:hover {
   color: white;
   text-decoration: none;
+  filter: brightness(80%);
 }
