@@ -1,46 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { getCoinsMarket } from '../../services/api';
-import TableComponent from '../components/table/table';
+import React from 'react';
+import TableComponent from '../../components/table/table';
 import { Spinner } from 'react-bootstrap';
+import { useGlobalContext } from '../../context';
 import './home.css';
 
 const Home = () => {
-  const [list, setList] = useState([]);
-  const [error, setError] = useState('');
-  const [tablePageNo, setTablePageNo] = useState(1);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const getCoinsMarketParams = {
-      vs_currency: 'eur',
-      per_page: 10,
-      page: tablePageNo,
-    };
-
-    const fetchList = async () => {
-      setLoading(true);
-      const res = await getCoinsMarket(getCoinsMarketParams);
-      if (res.data)
-        setList(
-          res.data.map(key => {
-            return {
-              image: key.image,
-              name: key.name,
-              symbol: key.symbol,
-              current_price: key.current_price,
-              high_24h: key.high_24h,
-              low_24h: key.low_24h,
-            };
-          })
-        );
-      else if (res.error) setError(res.error);
-      setLoading(false);
-    };
-    fetchList();
-  }, [tablePageNo]);
+  const { loading, tablePageNo, list, setTablePageNo } = useGlobalContext();
 
   return (
-    <div className="p-5">
+    <div className="p-5 home-main">
       {loading ? (
         <Spinner
           animation="border"

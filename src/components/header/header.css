@@ -1,3 +1,9 @@
+.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+
 .header-small-info {
   font-size: 11px;
   opacity: 0.8;

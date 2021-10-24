@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/home/home';
 import Details from './pages/details/details';
 import FourZeroFour from './pages/fourZeroFour/fourZeroFour';
-import Header from './pages/components/header/header';
+import Header from './components/header/header';
 
 function App() {
   return (
@@ -27,5 +27,3 @@ function App() {
 }
 
 export default App;
-
-console.log('test')

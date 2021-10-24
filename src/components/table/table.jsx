@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table } from 'react-bootstrap';
+import { ListGroupItem, Table } from 'react-bootstrap';
 import { Pagination } from 'react-bootstrap';
 import './table.css';
 
@@ -46,14 +46,16 @@ const TableComponent = ({
         <tbody>{getTableRow()}</tbody>
       </Table>
       <div className="table-pagination">
-        <Pagination>
-          <Pagination.Prev
-            onClick={prevPage}
-            disabled={decrementButtonDisable}
-          />
-          <Pagination.Item>{pageNo}</Pagination.Item>
-          <Pagination.Next onClick={nextPage} />
-        </Pagination>
+        {tableData.length > 1 && (
+          <Pagination>
+            <Pagination.Prev
+              onClick={prevPage}
+              disabled={decrementButtonDisable}
+            />
+            <Pagination.Item>{pageNo}</Pagination.Item>
+            <Pagination.Next onClick={nextPage} />
+          </Pagination>
+        )}
       </div>
     </div>
   );
