@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { useGlobalContext } from '../../context';
+import { Redirect } from 'react-router-dom';
 import './searchInput.css';
 
-const SearchInput = ({}) => {
+const SearchInput = () => {
   const { setSearchTerm } = useGlobalContext();
   const searchValue = useRef('');
 
@@ -12,7 +13,9 @@ const SearchInput = ({}) => {
 
   const searchCoin = e => {
     e.preventDefault();
-    setSearchTerm(searchValue.current.value.toLowerCase().trim().replace(' ', '-'));
+    setSearchTerm(
+      searchValue.current.value.toLowerCase().trim().replace(' ', '-')
+    );
   };
 
   return (

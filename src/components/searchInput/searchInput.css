@@ -6,6 +6,7 @@
 .search-form label {
   font-family: inherit;
   margin-right: 5px;
+  margin-bottom: unset;
 }
 
 .search-form input {

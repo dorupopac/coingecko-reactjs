@@ -23,7 +23,7 @@ const AppProvider = ({ children }) => {
 
       if (searchTerm.trim().length === 0) {
         const res = await getCoinsMarket(getCoinsMarketParams);
-        if (res.data)
+        if (res.data) {
           setList(
             res.data.map(key => {
               return {
@@ -36,13 +36,16 @@ const AppProvider = ({ children }) => {
               };
             })
           );
-        else if (res.error) setError(res.error);
-      } else {
+          setError('');
+        } else if (res.error) setError(res.error);
+      }
+
+      if (searchTerm.trim().length > 0) {
         const res = await fetch(
           `https://api.coingecko.com/api/v3/coins/${searchTerm}`
         );
-        const data = await res.json();
-        if (!data.error) {
+        if (res.ok) {
+          const data = await res.json();
           setList([
             {
               image: data.image.small,
@@ -53,6 +56,11 @@ const AppProvider = ({ children }) => {
               low_24h: `€${data.market_data.low_24h.eur}`,
             },
           ]);
+          setError('');
+        } else if (res.status === 404) {
+          setError('No coin matched your search criteria');
+        } else {
+          setError(`Error ${res.status}`);
         }
       }
       setLoading(false);

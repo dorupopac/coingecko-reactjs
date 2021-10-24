@@ -12,6 +12,7 @@ const buildParams = params => {
     if (params[key] !== undefined) {
       return `${key}=${params[key]}`;
     }
+    return key;
   });
 
   const finalQuery = `?${queryArr.join('&')}`;

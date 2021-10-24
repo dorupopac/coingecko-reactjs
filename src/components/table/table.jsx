@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { ListGroupItem, Table } from 'react-bootstrap';
+import React from 'react';
+import { Table } from 'react-bootstrap';
 import { Pagination } from 'react-bootstrap';
+import { useGlobalContext } from '../../context';
 import './table.css';
 
 const TableComponent = ({
@@ -11,7 +12,7 @@ const TableComponent = ({
   decrementButtonDisable = false,
   pageNo = 0,
 }) => {
-  const [row, setRow] = useState([]);
+  const { error } = useGlobalContext();
 
   const getTableRow = () => {
     return tableData.map((rowObj, i) => {
@@ -31,6 +32,8 @@ const TableComponent = ({
     });
   };
 
+  if (error) return <h2>{error}</h2>;
+
   return (
     <div>
       <Table striped bordered hover>
@@ -38,7 +41,7 @@ const TableComponent = ({
           <tr>
             {headerData.map(data => (
               <th key={data} style={{ textTransform: 'uppercase' }}>
-                {data}
+                {data.replace('_', ' ')}
               </th>
             ))}
           </tr>
@@ -52,7 +55,7 @@ const TableComponent = ({
               onClick={prevPage}
               disabled={decrementButtonDisable}
             />
-            <Pagination.Item>{pageNo}</Pagination.Item>
+            <Pagination.Item disabled>{pageNo}</Pagination.Item>
             <Pagination.Next onClick={nextPage} />
           </Pagination>
         )}
