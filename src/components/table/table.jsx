@@ -2,6 +2,7 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import { Pagination } from 'react-bootstrap';
 import { useGlobalContext } from '../../context';
+import { Link } from 'react-router-dom';
 import './table.css';
 
 const TableComponent = ({
@@ -11,6 +12,7 @@ const TableComponent = ({
   nextPage,
   decrementButtonDisable = false,
   pageNo = 0,
+  showPagination = true,
 }) => {
   const { error } = useGlobalContext();
 
@@ -21,7 +23,9 @@ const TableComponent = ({
           {headerData.map((value, i) => (
             <td key={value + i}>
               {value === 'image' ? (
-                <img src={rowObj[value]} width="50px" alt={rowObj.name} />
+                <Link to={`/details/${rowObj.id}`}>
+                  <img src={rowObj[value]} width="50px" alt={rowObj.name} />
+                </Link>
               ) : (
                 rowObj[value]
               )}
@@ -36,7 +40,7 @@ const TableComponent = ({
 
   return (
     <div>
-      <Table striped bordered hover>
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
             {headerData.map(data => (

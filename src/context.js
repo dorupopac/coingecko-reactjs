@@ -27,6 +27,7 @@ const AppProvider = ({ children }) => {
           setList(
             res.data.map(key => {
               return {
+                id: key.id,
                 image: key.image,
                 name: key.name,
                 symbol: key.symbol,
@@ -48,6 +49,7 @@ const AppProvider = ({ children }) => {
           const data = await res.json();
           setList([
             {
+              id: data.id,
               image: data.image.small,
               name: data.name,
               symbol: data.symbol,
@@ -78,6 +80,7 @@ const AppProvider = ({ children }) => {
         loading,
         searchTerm,
         setSearchTerm,
+        setLoading,
       }}
     >
       {children}

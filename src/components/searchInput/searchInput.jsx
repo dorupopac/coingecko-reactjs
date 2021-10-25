@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { useGlobalContext } from '../../context';
-import { Redirect } from 'react-router-dom';
 import './searchInput.css';
 
 const SearchInput = () => {
