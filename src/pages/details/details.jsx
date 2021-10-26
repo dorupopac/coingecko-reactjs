@@ -4,11 +4,19 @@ import { useLocation } from 'react-router-dom';
 import { getCoinDetails } from '../../services/api';
 import TableComponent from '../../components/table/table';
 import { Spinner } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
+// font-awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+// css
 import './details.css';
 
 const Details = () => {
-  const { loading, setLoading } = useGlobalContext();
   const [tableData, setTableData] = useState({});
+  const [coinDescription, setCoinDescription] = useState('');
+  const [homepages, setHomePages] = useState([]);
+  const { loading, setLoading } = useGlobalContext();
   const location = useLocation();
 
   useEffect(() => {
@@ -26,6 +34,8 @@ const Details = () => {
           market_cap_eur: res.data.market_data?.market_cap?.eur,
           genesis_date: res.data.genesis_date,
         });
+        setCoinDescription(res.data.description.en);
+        setHomePages(res.data.links.homepage);
       }
       setLoading(false);
     };
@@ -41,11 +51,32 @@ const Details = () => {
           className="spinner-center"
         />
       ) : (
-        <TableComponent
-          headerData={Object.keys(tableData)}
-          tableData={[tableData]}
-          showPagination={false}
-        />
+        <>
+          <Link to="/">
+            <FontAwesomeIcon icon={faHome} size="2x" /> To Home
+          </Link>
+          <TableComponent
+            containerClassName="mt-4"
+            headerData={Object.keys(tableData)}
+            tableData={[tableData]}
+            showPagination={false}
+          />
+          {coinDescription && (
+            <iframe
+              scrolling="no"
+              srcDoc={'<head><base target="_blank"> </head>' + coinDescription}
+              width={'100%'}
+              style={{ border: 'none' }}
+            />
+          )}
+          <div className="d-flex flex-column">
+            {homepages.map((page, i) => (
+              <a key={page + i} href={page} target="_blank">
+                {page}
+              </a>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

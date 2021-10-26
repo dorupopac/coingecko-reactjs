@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { getCoinsMarket } from './services/api';
+import { getCoinsMarket, getCoinDetails } from './services/api';
 // import { useCallback } from 'react';
 
 const AppContext = React.createContext();
@@ -17,6 +17,7 @@ const AppProvider = ({ children }) => {
       per_page: 10,
       page: tablePageNo,
     };
+    const getCoinDetailsParams = {};
 
     const fetchList = async () => {
       setLoading(true);
@@ -42,27 +43,25 @@ const AppProvider = ({ children }) => {
       }
 
       if (searchTerm.trim().length > 0) {
-        const res = await fetch(
-          `https://api.coingecko.com/api/v3/coins/${searchTerm}`
-        );
-        if (res.ok) {
-          const data = await res.json();
+        const res = await getCoinDetails(searchTerm, getCoinDetailsParams);
+        
+        if (res.data) {
           setList([
             {
-              id: data.id,
-              image: data.image.small,
-              name: data.name,
-              symbol: data.symbol,
-              current_price: `€${data.market_data.current_price.eur}`,
-              high_24h: `€${data.market_data.high_24h.eur}`,
-              low_24h: `€${data.market_data.low_24h.eur}`,
+              id: res.data.id,
+              image: res.data.image.small,
+              name: res.data.name,
+              symbol: res.data.symbol,
+              current_price: `€${res.data.market_data.current_price.eur}`,
+              high_24h: `€${res.data.market_data.high_24h.eur}`,
+              low_24h: `€${res.data.market_data.low_24h.eur}`,
             },
           ]);
           setError('');
-        } else if (res.status === 404) {
+        } else if (res.error.response.status === 404) {
           setError('No coin matched your search criteria');
         } else {
-          setError(`Error ${res.status}`);
+          setError(`Error ${res.error}`);
         }
       }
       setLoading(false);
