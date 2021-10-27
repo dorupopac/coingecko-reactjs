@@ -40,7 +40,8 @@ const Details = () => {
       setLoading(false);
     };
     fetchDetails();
-  }, []);
+    // added these dependencies so the console doesn't cry
+  }, [location.pathname, setLoading]);
 
   return (
     <div className="p-5 details-page ">

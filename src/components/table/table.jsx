@@ -11,8 +11,7 @@ const TableComponent = ({
   nextPage,
   decrementButtonDisable = false,
   pageNo = 0,
-  showPagination = true,
-  containerClassName=''
+  containerClassName = '',
 }) => {
   const { error } = useGlobalContext();
 
@@ -40,7 +39,7 @@ const TableComponent = ({
 
   return (
     <>
-      <Table striped bordered hover responsive>
+      <Table className={containerClassName} striped bordered hover responsive>
         <thead>
           <tr>
             {headerData.map(data => (

@@ -12,6 +12,11 @@ const AppProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
+    const initPage = sessionStorage.getItem('page');
+    if (initPage) setTablePageNo(+initPage);
+  }, []);
+
+  useEffect(() => {
     const getCoinsMarketParams = {
       vs_currency: 'eur',
       per_page: 10,
@@ -24,7 +29,8 @@ const AppProvider = ({ children }) => {
 
       if (searchTerm.trim().length === 0) {
         const res = await getCoinsMarket(getCoinsMarketParams);
-        if (res.data) {
+        console.log(res);
+        if (res.data && res.data.length !== 0) {
           setList(
             res.data.map(key => {
               return {
@@ -39,12 +45,12 @@ const AppProvider = ({ children }) => {
             })
           );
           setError('');
-        } else if (res.error) setError(res.error);
+        } else if (res.data.length === 0) setError('You reached the end.');
+        else if (res.error) setError(res.error);
       }
 
       if (searchTerm.trim().length > 0) {
         const res = await getCoinDetails(searchTerm, getCoinDetailsParams);
-        
         if (res.data) {
           setList([
             {
@@ -67,6 +73,7 @@ const AppProvider = ({ children }) => {
       setLoading(false);
     };
     fetchList();
+    sessionStorage.setItem('page', tablePageNo);
   }, [tablePageNo, searchTerm]);
 
   return (
