@@ -7,6 +7,15 @@ import './home.css';
 const Home = () => {
   const { loading, tablePageNo, list, error, setTablePageNo } =
     useGlobalContext();
+    console.log(list)
+
+  const handleNextTablePage = () => {
+    setTablePageNo(prev => prev + 1);
+  };
+
+  const handlePrevTablePage = () => {
+    setTablePageNo(prev => prev - 1);
+  };
 
   return (
     <div className="p-5 home-main">
@@ -20,8 +29,8 @@ const Home = () => {
         <TableComponent
           headerData={Object.keys(list[0]).filter(key => key !== 'id')}
           tableData={list}
-          prevPage={() => setTablePageNo(prev => prev - 1)}
-          nextPage={() => setTablePageNo(prev => prev + 1)}
+          prevPage={handlePrevTablePage}
+          nextPage={handleNextTablePage}
           decrementButtonDisable={tablePageNo === 1}
           pageNo={tablePageNo}
         />

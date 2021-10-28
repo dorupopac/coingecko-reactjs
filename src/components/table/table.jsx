@@ -3,7 +3,6 @@ import { Table } from 'react-bootstrap';
 import { Pagination } from 'react-bootstrap';
 import { useGlobalContext } from '../../context';
 import { Link } from 'react-router-dom';
-import './table.css';
 
 const TableComponent = ({
   headerData,
@@ -12,7 +11,7 @@ const TableComponent = ({
   nextPage,
   decrementButtonDisable = false,
   pageNo = 0,
-  showPagination = true,
+  containerClassName = '',
 }) => {
   const { error } = useGlobalContext();
 
@@ -39,8 +38,8 @@ const TableComponent = ({
   if (error) return <h2>{error}</h2>;
 
   return (
-    <div>
-      <Table striped bordered hover responsive>
+    <>
+      <Table className={containerClassName} striped bordered hover responsive>
         <thead>
           <tr>
             {headerData.map(data => (
@@ -52,7 +51,7 @@ const TableComponent = ({
         </thead>
         <tbody>{getTableRow()}</tbody>
       </Table>
-      <div className="table-pagination">
+      <div className="d-flex justify-content-center">
         {tableData.length > 1 && (
           <Pagination>
             <Pagination.Prev
@@ -64,7 +63,7 @@ const TableComponent = ({
           </Pagination>
         )}
       </div>
-    </div>
+    </>
   );
 };
 
