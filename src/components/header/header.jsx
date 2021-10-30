@@ -1,11 +1,17 @@
 import React from 'react';
-import { Navbar } from 'react-bootstrap';
-import SearchInput from '../searchInput/searchInput';
-import './header.css';
+import { Nav, Navbar } from 'react-bootstrap';
+import SearchInput from '../SearchInput/SearchInput'
+import classes from './Header.module.css';
 
 const Header = () => {
   return (
-    <Navbar bg="dark" variant="dark" className="d-flex justify-content-between navbar">
+    <Navbar
+      bg="dark"
+      variant="dark"
+      className="d-flex justify-content-between"
+      fixed="top"
+      expand="lg"
+    >
       <Navbar.Brand className="d-flex">
         <img
           alt=""
@@ -14,18 +20,19 @@ const Header = () => {
           height="30"
           className="d-inline-block align-top"
         />
-        <div className="ml-2">Gecko Client</div>
+        <div className="ml-2">Coingecko App</div>
       </Navbar.Brand>
-      <div className="d-flex align-items-center">
+      <div
+        className={`d-flex align-items-center ${classes['header-anchor-styling']}`}
+      >
         <SearchInput />
-        <a
-          href="https://www.coingecko.com/api/documentations/v3"
+        <Nav.Link
           target="_blank"
-          rel="noreferrer"
-          className="header-small-info"
+          href="https://www.coingecko.com/api/documentations/v3"
+          className={classes['header-small-info']}
         >
           Built with CoinGecko API
-        </a>
+        </Nav.Link>
       </div>
     </Navbar>
   );

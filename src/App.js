@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Home from './pages/home/home';
-import Details from './pages/details/details';
-import FourZeroFour from './pages/fourZeroFour/fourZeroFour';
-import Header from './components/header/header';
+import Home from './pages/Home/Home';
+import Details from './pages/Details/Details';
+import FourZeroFour from './pages/FourZeroFour/FourZeroFour';
+import Header from './components/Header/Header';
 
 function App() {
   return (

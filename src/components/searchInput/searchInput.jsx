@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useGlobalContext } from '../../context';
 import { useLocation, useHistory } from 'react-router-dom';
-import './searchInput.css';
+import { Button, Form, FormControl } from 'react-bootstrap';
 
 const SearchInput = () => {
   const { setSearchTerm } = useGlobalContext();
@@ -13,7 +13,7 @@ const SearchInput = () => {
     searchValue.current.focus();
   }, []);
 
-  const handleRedirect = () => {
+  const redirectToHomepage = () => {
     if (location.pathname !== '/') {
       history.push('/');
     } else return;
@@ -28,21 +28,21 @@ const SearchInput = () => {
         .replace(/[^0-9a-z- ]/gi, '')
         .replaceAll(' ', '-')
     );
-    handleRedirect();
+    redirectToHomepage();
   };
 
   return (
-    <>
-      <form className="search-form" onSubmit={handleSearch}>
-        <label htmlFor="search-coin">Search coin:</label>
-        <input
-          type="text"
-          name="search-coin"
-          id="search-coin"
-          ref={searchValue}
-        />
-      </form>
-    </>
+    <Form inline className="mr-5" onSubmit={handleSearch}>
+      <FormControl
+        type="text"
+        placeholder="Search Coin by Name"
+        className="mr-sm-2"
+        ref={searchValue}
+      />
+      <Button type="submit" variant="outline-info">
+        Search
+      </Button>
+    </Form>
   );
 };
 export default SearchInput;

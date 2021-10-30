@@ -29,7 +29,6 @@ const AppProvider = ({ children }) => {
 
       if (searchTerm.trim().length === 0) {
         const res = await getCoinsMarket(getCoinsMarketParams);
-        console.log(res);
         if (res.data && res.data.length !== 0) {
           setList(
             res.data.map(key => {
@@ -38,9 +37,9 @@ const AppProvider = ({ children }) => {
                 image: key.image,
                 name: key.name,
                 symbol: key.symbol,
-                current_price: `€${key.current_price}`,
-                high_24h: `€${key.high_24h}`,
-                low_24h: `€${key.low_24h}`,
+                current_price: `${key.current_price} EUR`,
+                high_24h: `${key.high_24h} EUR`,
+                low_24h: `${key.low_24h} EUR`,
               };
             })
           );
@@ -58,9 +57,9 @@ const AppProvider = ({ children }) => {
               image: res.data.image.small,
               name: res.data.name,
               symbol: res.data.symbol,
-              current_price: `€${res.data.market_data.current_price.eur}`,
-              high_24h: `€${res.data.market_data.high_24h.eur}`,
-              low_24h: `€${res.data.market_data.low_24h.eur}`,
+              current_price: `${res.data.market_data.current_price.eur} EUR`,
+              high_24h: `${res.data.market_data.high_24h.eur} EUR`,
+              low_24h: `${res.data.market_data.low_24h.eur} EUR`,
             },
           ]);
           setError('');

@@ -39,12 +39,12 @@ const TableComponent = ({
 
   return (
     <>
-      <Table className={containerClassName} striped bordered hover responsive>
+      <Table className={containerClassName} striped hover responsive variant="dark">
         <thead>
           <tr>
             {headerData.map(data => (
               <th key={data} style={{ textTransform: 'uppercase' }}>
-                {data.replace('_', ' ')}
+                {data.replaceAll('_', ' ')}
               </th>
             ))}
           </tr>
@@ -58,7 +58,7 @@ const TableComponent = ({
               onClick={prevPage}
               disabled={decrementButtonDisable}
             />
-            <Pagination.Item disabled>{pageNo}</Pagination.Item>
+            <Pagination.Item active>{pageNo}</Pagination.Item>
             <Pagination.Next onClick={nextPage} />
           </Pagination>
         )}
