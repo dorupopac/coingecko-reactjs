@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useGlobalContext } from '../../context';
 import { useLocation } from 'react-router-dom';
 import { getCoinDetails } from '../../services/api';
-import TableComponent from '../../components/table/table';
+import TableComponent from '../../components/Table/Table';
 import { Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 // font-awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
-// css
-import './details.css';
 
 const Details = () => {
   const [tableData, setTableData] = useState({});
@@ -44,7 +42,7 @@ const Details = () => {
   }, [location.pathname, setLoading]);
 
   return (
-    <div className="p-5 details-page ">
+    <div className="m-5 pt-5">
       {loading ? (
         <Spinner
           animation="border"
@@ -63,16 +61,18 @@ const Details = () => {
             showPagination={false}
           />
           {coinDescription && (
-            <iframe
-              scrolling="no"
-              srcDoc={'<head><base target="_blank"> </head>' + coinDescription}
-              width={'100%'}
-              style={{ border: 'none' }}
+            <p
+              dangerouslySetInnerHTML={{
+                __html: coinDescription.replaceAll(
+                  '<a',
+                  '<a target="_blank" rel="noreferrer"'
+                ),
+              }}
             />
           )}
           <div className="d-flex flex-column">
             {homepages.map((page, i) => (
-              <a key={page + i} href={page} target="_blank">
+              <a key={page + i} href={page} target="_blank" rel="noreferrer">
                 {page}
               </a>
             ))}

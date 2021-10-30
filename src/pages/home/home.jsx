@@ -1,13 +1,11 @@
 import React from 'react';
-import TableComponent from '../../components/table/table';
+import TableComponent from '../../components/Table/Table';
 import { Spinner } from 'react-bootstrap';
 import { useGlobalContext } from '../../context';
-import './home.css';
 
 const Home = () => {
   const { loading, tablePageNo, list, error, setTablePageNo } =
     useGlobalContext();
-    console.log(list)
 
   const handleNextTablePage = () => {
     setTablePageNo(prev => prev + 1);
@@ -18,7 +16,7 @@ const Home = () => {
   };
 
   return (
-    <div className="p-5 home-main">
+    <div className="m-5">
       {loading ? (
         <Spinner
           animation="border"
@@ -33,6 +31,7 @@ const Home = () => {
           nextPage={handleNextTablePage}
           decrementButtonDisable={tablePageNo === 1}
           pageNo={tablePageNo}
+          containerClassName="mt-5"
         />
       ) : (
         <div style={{ color: 'red' }}>{error}</div>

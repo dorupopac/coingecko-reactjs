@@ -1,0 +1,11 @@
+.header-small-info {
+  font-size: 11px;
+  opacity: 0.9;
+  color: #fff;
+  padding: 0;
+}
+
+.header-anchor-styling a:hover {
+  color: #fff;
+  opacity: 0.8;
+}
