@@ -25,7 +25,7 @@ const CustomMenu = React.forwardRef(
           autoFocus
           className="mx-3 my-2 w-auto"
           placeholder="Type currency..."
-          onChange={e => setCurrencyInput(e.target.value)}
+          onChange={e => setCurrencyInput(e.target.value.trim().toUpperCase())}
           value={currencyInput}
           ref={inputRef}
         />
@@ -33,7 +33,7 @@ const CustomMenu = React.forwardRef(
           {React.Children.toArray(children).filter(
             child =>
               !currencyInput ||
-              child.props.children.toLowerCase().startsWith(currencyInput)
+              child.props.children.toUpperCase().startsWith(currencyInput)
           )}
         </ul>
       </div>
