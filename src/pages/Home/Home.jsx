@@ -35,7 +35,6 @@ const Home = () => {
       setLoading(true);
 
       const res = await getCoinsMarket(getCoinsMarketParams);
-      console.log(res);
       if (res.data && res.data.length !== 0) {
         setList(
           res.data.map(key => {
@@ -58,7 +57,7 @@ const Home = () => {
     };
     fetchList();
     sessionStorage.setItem('page', tablePageNo);
-  }, [searchTerm, tablePageNo]);
+  }, [searchTerm, tablePageNo, currency, setError, setList, setLoading]);
 
   const buildTableHeaderData = () =>
     Object.keys(list[0]).filter(key => key !== 'id');

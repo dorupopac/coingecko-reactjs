@@ -44,7 +44,7 @@ const Details = () => {
     };
     fetchDetails();
     // added these dependencies so the console doesn't cry
-  }, [location.pathname, setLoading]);
+  }, [location.pathname, setLoading, currency]);
 
   return (
     <div className="m-5 pt-5">

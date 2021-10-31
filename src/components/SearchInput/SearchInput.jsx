@@ -49,7 +49,7 @@ const SearchInput = () => {
       setLoading(false);
     };
     fetchList();
-  }, [searchTerm]);
+  }, [searchTerm, setError, setList, setLoading]);
 
   const redirectToHomepage = () => {
     if (location.pathname !== '/') {
