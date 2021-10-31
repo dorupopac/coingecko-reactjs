@@ -15,6 +15,8 @@ const TableComponent = ({
 }) => {
   const { error } = useGlobalContext();
 
+  console.log(tableData);
+
   const getTableRow = () => {
     return tableData.map((rowObj, i) => {
       return (
