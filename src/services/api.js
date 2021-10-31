@@ -55,7 +55,8 @@ export const getCoinsMarket = async params => {
 
 export const getCoinDetails = async (subUrl, params) => {
   if (subUrl) {
-    const parsedParams = buildParams(params);
+    let parsedParams = buildParams(params);
+    if(!parsedParams) parsedParams = '';
     try {
       const res = await instance.get(`/coins/${subUrl}${parsedParams}`);
       return { data: res.data };

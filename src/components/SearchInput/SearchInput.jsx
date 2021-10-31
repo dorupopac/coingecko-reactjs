@@ -9,7 +9,7 @@ const SearchInput = () => {
   const searchValue = useRef('');
   const location = useLocation();
   const history = useHistory();
-  const { searchTerm, setSearchTerm, setLoading, setList, setError } =
+  const { searchTerm, setSearchTerm, setLoading, setList, setError, currency } =
     useGlobalContext();
 
   useEffect(() => {
@@ -24,6 +24,7 @@ const SearchInput = () => {
       setLoading(true);
 
       const res = await getCoinDetails(searchTerm, getCoinDetailsParams);
+      console.log(res);
       if (res.data) {
         setList([
           {
@@ -33,10 +34,13 @@ const SearchInput = () => {
             symbol: res.data.symbol,
             current_price: formatCurrency(
               res.data.market_data.current_price.eur,
-              'eur'
+              currency
             ),
-            high_24h: formatCurrency(res.data.market_data.high_24h.eur, 'eur'),
-            low_24h: formatCurrency(res.data.market_data.low_24h.eur, 'eur'),
+            high_24h: formatCurrency(
+              res.data.market_data.high_24h.eur,
+              currency
+            ),
+            low_24h: formatCurrency(res.data.market_data.low_24h.eur, currency),
           },
         ]);
         setError('');
@@ -49,7 +53,7 @@ const SearchInput = () => {
       setLoading(false);
     };
     fetchList();
-  }, [searchTerm, setError, setList, setLoading]);
+  }, [searchTerm, setError, setList, setLoading, currency]);
 
   const redirectToHomepage = () => {
     if (location.pathname !== '/') {

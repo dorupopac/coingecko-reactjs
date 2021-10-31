@@ -1,6 +1,7 @@
 import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
-import SearchInput from '../SearchInput/SearchInput'
+import SearchInput from '../SearchInput/SearchInput';
+import CurrencyInput from '../CurrencyInput/CurrencyInput';
 import classes from './Header.module.css';
 
 const Header = () => {
@@ -22,17 +23,20 @@ const Header = () => {
         />
         <div className="ml-2">Coingecko App</div>
       </Navbar.Brand>
-      <div
-        className={`d-flex align-items-center ${classes['header-anchor-styling']}`}
-      >
-        <SearchInput />
-        <Nav.Link
-          target="_blank"
-          href="https://www.coingecko.com/api/documentations/v3"
-          className={classes['header-small-info']}
+      <div className="d-flex align-items-center">
+        <CurrencyInput />
+        <div
+          className={`d-flex align-items-center ${classes['header-anchor-styling']}`}
         >
-          Built with CoinGecko API
-        </Nav.Link>
+          <SearchInput />
+          <Nav.Link
+            target="_blank"
+            href="https://www.coingecko.com/api/documentations/v3"
+            className={classes['header-small-info']}
+          >
+            Built with CoinGecko API
+          </Nav.Link>
+        </div>
       </div>
     </Navbar>
   );

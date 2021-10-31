@@ -7,7 +7,8 @@ const AppProvider = ({ children }) => {
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
-  const [currency, setCurrency] = useState('eur');
+  const [currency, setCurrency] = useState('usd');
+  const [currencyInput, setCurrencyInput] = useState('');
 
   return (
     <AppContext.Provider
@@ -22,6 +23,8 @@ const AppProvider = ({ children }) => {
         setError,
         currency,
         setCurrency,
+        currencyInput,
+        setCurrencyInput,
       }}
     >
       {children}
