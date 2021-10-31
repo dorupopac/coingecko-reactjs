@@ -41,6 +41,7 @@ export const getCoinsMarket = async params => {
     const parsedParams = buildParams(params);
     try {
       const res = await instance.get(`/coins/markets${parsedParams}`);
+      if (res.error) return {}
       return { data: res.data };
     } catch (error) {
       return { error };

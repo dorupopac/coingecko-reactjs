@@ -15,18 +15,27 @@ const TableComponent = ({
 }) => {
   const { error } = useGlobalContext();
 
+  console.log(tableData);
+
   const getTableRow = () => {
     return tableData.map((rowObj, i) => {
       return (
         <tr key={rowObj + i}>
           {headerData.map((value, i) => (
-            <td key={value + i}>
+            <td
+              key={value + i}
+              style={
+                rowObj[value] !== null
+                  ? {}
+                  : { fontStyle: 'italic', fontWeight: '200' }
+              }
+            >
               {value === 'image' ? (
                 <Link to={`/details/${rowObj.id}`}>
                   <img src={rowObj[value]} width="50px" alt={rowObj.name} />
                 </Link>
               ) : (
-                rowObj[value]
+                rowObj[value] !== null ? rowObj[value] : 'No data found ☹️'
               )}
             </td>
           ))}
@@ -39,7 +48,13 @@ const TableComponent = ({
 
   return (
     <>
-      <Table className={containerClassName} striped hover responsive variant="dark">
+      <Table
+        className={containerClassName}
+        striped
+        hover
+        responsive
+        variant="dark"
+      >
         <thead>
           <tr>
             {headerData.map(data => (
