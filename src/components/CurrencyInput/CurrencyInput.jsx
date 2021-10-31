@@ -50,7 +50,7 @@ const CurrencyInput = () => {
   useEffect(() => {
     const currency = localStorage.getItem('currency');
     if (currency) setCurrency(currency);
-  }, []);
+  }, [setCurrency]);
 
   useEffect(() => {
     const fetchCurrencies = async () => {
