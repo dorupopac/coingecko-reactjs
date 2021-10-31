@@ -1,11 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TableComponent from '../../components/Table/Table';
 import { Spinner } from 'react-bootstrap';
 import { useGlobalContext } from '../../context';
+import { getCoinsMarket } from '../../services/api';
+import { formatCurrency } from '../../services/formatCurrency';
 
 const Home = () => {
-  const { loading, tablePageNo, list, error, setTablePageNo } =
-    useGlobalContext();
+  const [tablePageNo, setTablePageNo] = useState(1);
+  const {
+    loading,
+    list,
+    error,
+    searchTerm,
+    setLoading,
+    setList,
+    setError,
+    currency,
+  } = useGlobalContext();
+
+  useEffect(() => {
+    const initPage = sessionStorage.getItem('page');
+    if (initPage) setTablePageNo(+initPage);
+  }, []);
+
+  useEffect(() => {
+    const getCoinsMarketParams = {
+      vs_currency: currency,
+      per_page: 10,
+      page: tablePageNo,
+    };
+
+    const fetchList = async () => {
+      if (searchTerm.trim().length !== 0) return;
+      setLoading(true);
+
+      const res = await getCoinsMarket(getCoinsMarketParams);
+      console.log(res);
+      if (res.data && res.data.length !== 0) {
+        setList(
+          res.data.map(key => {
+            return {
+              id: key.id,
+              image: key.image,
+              name: key.name,
+              symbol: key.symbol,
+              current_price: formatCurrency(key.current_price, currency),
+              high_24h: formatCurrency(key.high_24h, currency),
+              low_24h: formatCurrency(key.low_24h, currency),
+            };
+          })
+        );
+        setError('');
+      } else if (res.error) setError(res.error);
+      else if (res.data.length === 0) setError('You reached the end.');
+
+      setLoading(false);
+    };
+    fetchList();
+    sessionStorage.setItem('page', tablePageNo);
+  }, [searchTerm, tablePageNo]);
+
+  const buildTableHeaderData = () =>
+    Object.keys(list[0]).filter(key => key !== 'id');
 
   const handleNextTablePage = () => {
     setTablePageNo(prev => prev + 1);
@@ -25,7 +81,7 @@ const Home = () => {
         />
       ) : list.length > 0 ? (
         <TableComponent
-          headerData={Object.keys(list[0]).filter(key => key !== 'id')}
+          headerData={buildTableHeaderData()}
           tableData={list}
           prevPage={handlePrevTablePage}
           nextPage={handleNextTablePage}

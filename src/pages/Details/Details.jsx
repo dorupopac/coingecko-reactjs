@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGlobalContext } from '../../context';
 import { useLocation } from 'react-router-dom';
 import { getCoinDetails } from '../../services/api';
+import { formatCurrency } from '../../services/formatCurrency';
 import TableComponent from '../../components/Table/Table';
 import { Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -14,7 +15,7 @@ const Details = () => {
   const [tableData, setTableData] = useState({});
   const [coinDescription, setCoinDescription] = useState('');
   const [homepages, setHomePages] = useState([]);
-  const { loading, setLoading } = useGlobalContext();
+  const { loading, setLoading, currency } = useGlobalContext();
   const location = useLocation();
 
   useEffect(() => {
@@ -28,8 +29,12 @@ const Details = () => {
         setTableData({
           name: res.data.name,
           symbol: res.data.symbol,
-          hashing_algorithm: res.data.hashing_algorithm,
-          market_cap_eur: res.data.market_data?.market_cap?.eur,
+          hashing_algorithm:
+            res.data.hashing_algorithm,
+          market_cap: formatCurrency(
+            res.data.market_data?.market_cap?.eur,
+            currency
+          ),
           genesis_date: res.data.genesis_date,
         });
         setCoinDescription(res.data.description.en);
