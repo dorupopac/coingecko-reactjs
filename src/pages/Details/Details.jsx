@@ -29,8 +29,7 @@ const Details = () => {
         setTableData({
           name: res.data.name,
           symbol: res.data.symbol,
-          hashing_algorithm:
-            res.data.hashing_algorithm,
+          hashing_algorithm: res.data.hashing_algorithm,
           market_cap: formatCurrency(
             res.data.market_data?.market_cap?.eur,
             currency
@@ -47,7 +46,7 @@ const Details = () => {
   }, [location.pathname, setLoading, currency]);
 
   return (
-    <div className="m-5 pt-5">
+    <div className="m-sm-5 m-0 pt-5">
       {loading ? (
         <Spinner
           animation="border"
@@ -65,22 +64,24 @@ const Details = () => {
             tableData={[tableData]}
             showPagination={false}
           />
-          {coinDescription && (
-            <p
-              dangerouslySetInnerHTML={{
-                __html: coinDescription.replaceAll(
-                  '<a',
-                  '<a target="_blank" rel="noreferrer"'
-                ),
-              }}
-            />
-          )}
-          <div className="d-flex flex-column">
-            {homepages.map((page, i) => (
-              <a key={page + i} href={page} target="_blank" rel="noreferrer">
-                {page}
-              </a>
-            ))}
+          <div className="p-3">
+            {coinDescription && (
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: coinDescription.replaceAll(
+                    '<a',
+                    '<a target="_blank" rel="noreferrer"'
+                  ),
+                }}
+              />
+            )}
+            <div className="d-flex flex-column">
+              {homepages.map((page, i) => (
+                <a key={page + i} href={page} target="_blank" rel="noreferrer">
+                  {page}
+                </a>
+              ))}
+            </div>
           </div>
         </>
       )}

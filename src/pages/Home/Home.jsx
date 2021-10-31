@@ -71,7 +71,7 @@ const Home = () => {
   };
 
   return (
-    <div className="m-5">
+    <div className="m-sm-5 m-0">
       {loading ? (
         <Spinner
           animation="border"

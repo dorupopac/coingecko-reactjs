@@ -74,7 +74,7 @@ const SearchInput = () => {
   };
 
   return (
-    <Form inline className="mr-5" onSubmit={handleSearch}>
+    <Form className="d-flex mr-3" onSubmit={handleSearch}>
       <FormControl
         type="text"
         placeholder="Search Coin by Name"
