@@ -41,7 +41,7 @@ export const getCoinsMarket = async params => {
     const parsedParams = buildParams(params);
     try {
       const res = await instance.get(`/coins/markets${parsedParams}`);
-      if (res.error) return {}
+      if (res.error) return {};
       return { data: res.data };
     } catch (error) {
       return { error };
@@ -56,7 +56,7 @@ export const getCoinsMarket = async params => {
 export const getCoinDetails = async (subUrl, params) => {
   if (subUrl) {
     let parsedParams = buildParams(params);
-    if(!parsedParams) parsedParams = '';
+    if (!parsedParams) parsedParams = '';
     try {
       const res = await instance.get(`/coins/${subUrl}${parsedParams}`);
       return { data: res.data };
@@ -67,5 +67,14 @@ export const getCoinDetails = async (subUrl, params) => {
     return {
       error: 'Invalid call parameters',
     };
+  }
+};
+
+export const getSupportedCurrencies = async () => {
+  try {
+    const res = await instance.get('/simple/supported_vs_currencies');
+    return { data: res.data };
+  } catch (err) {
+    return { err };
   }
 };

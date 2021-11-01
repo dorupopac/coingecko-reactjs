@@ -1,4 +1,5 @@
 import React from 'react';
+import HomeBtn from '../Utils/HomeBtn';
 import { Table } from 'react-bootstrap';
 import { Pagination } from 'react-bootstrap';
 import { useGlobalContext } from '../../context';
@@ -13,8 +14,12 @@ const TableComponent = ({
   pageNo = 0,
   containerClassName = '',
 }) => {
-  const { error } = useGlobalContext();
+  const { error, setSearchTerm, searchTerm } = useGlobalContext();
 
+  const resetSearchTerm = () => {
+    setSearchTerm('')
+  }
+  
   const getTableRow = () => {
     return tableData.map((rowObj, i) => {
       return (
@@ -29,11 +34,13 @@ const TableComponent = ({
               }
             >
               {value === 'image' ? (
-                <Link to={`/details/${rowObj.id}`}>
+                <Link onClick={resetSearchTerm} to={`/details/${rowObj.id}`}>
                   <img src={rowObj[value]} width="50px" alt={rowObj.name} />
                 </Link>
+              ) : rowObj[value] !== null ? (
+                rowObj[value]
               ) : (
-                rowObj[value] !== null ? rowObj[value] : 'No data found ☹️'
+                'No data found ☹️'
               )}
             </td>
           ))}
@@ -43,9 +50,9 @@ const TableComponent = ({
   };
 
   if (error) return <h2>{error}</h2>;
-
   return (
     <>
+      {searchTerm.length !== 0 && <HomeBtn />}
       <Table
         className={containerClassName}
         striped

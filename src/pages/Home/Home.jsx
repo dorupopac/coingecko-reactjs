@@ -71,7 +71,7 @@ const Home = () => {
   };
 
   return (
-    <div className="m-sm-5 m-0">
+    <div className={`m-sm-5 m-0 ${searchTerm.length !== 0 ? 'pt-5' : ''}`}>
       {loading ? (
         <Spinner
           animation="border"
@@ -86,7 +86,7 @@ const Home = () => {
           nextPage={handleNextTablePage}
           decrementButtonDisable={tablePageNo === 1}
           pageNo={tablePageNo}
-          containerClassName="mt-5"
+          containerClassName={searchTerm.length !== 0 ? 'mt-4' : 'mt-5'}
         />
       ) : (
         <div style={{ color: 'red' }}>{error}</div>

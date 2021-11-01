@@ -4,12 +4,8 @@ import { useLocation } from 'react-router-dom';
 import { getCoinDetails } from '../../services/api';
 import { formatCurrency } from '../../services/formatCurrency';
 import TableComponent from '../../components/Table/Table';
+import HomeBtn from '../../components/Utils/HomeBtn';
 import { Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-
-// font-awesome
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
 
 const Details = () => {
   const [tableData, setTableData] = useState({});
@@ -17,7 +13,7 @@ const Details = () => {
   const [homepages, setHomePages] = useState([]);
   const { loading, setLoading, currency } = useGlobalContext();
   const location = useLocation();
-
+  
   useEffect(() => {
     const coinId = location.pathname.substr(9);
     const getCoinDetailsParams = {};
@@ -31,7 +27,7 @@ const Details = () => {
           symbol: res.data.symbol,
           hashing_algorithm: res.data.hashing_algorithm,
           market_cap: formatCurrency(
-            res.data.market_data?.market_cap?.eur,
+            res.data.market_data?.market_cap?.[currency],
             currency
           ),
           genesis_date: res.data.genesis_date,
@@ -44,7 +40,6 @@ const Details = () => {
     fetchDetails();
     // added these dependencies so the console doesn't cry
   }, [location.pathname, setLoading, currency]);
-
   return (
     <div className="m-sm-5 m-0 pt-5">
       {loading ? (
@@ -55,9 +50,7 @@ const Details = () => {
         />
       ) : (
         <>
-          <Link to="/">
-            <FontAwesomeIcon icon={faHome} size="2x" /> To Home
-          </Link>
+          <HomeBtn />
           <TableComponent
             containerClassName="mt-4"
             headerData={Object.keys(tableData)}

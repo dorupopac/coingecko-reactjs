@@ -14,7 +14,8 @@ const SearchInput = () => {
 
   useEffect(() => {
     searchValue.current.focus();
-  }, []);
+    searchValue.current.value = ''
+  }, [searchTerm]);
 
   useEffect(() => {
     const getCoinDetailsParams = {};
@@ -24,7 +25,6 @@ const SearchInput = () => {
       setLoading(true);
 
       const res = await getCoinDetails(searchTerm, getCoinDetailsParams);
-      console.log(res);
       if (res.data) {
         setList([
           {
@@ -33,14 +33,14 @@ const SearchInput = () => {
             name: res.data.name,
             symbol: res.data.symbol,
             current_price: formatCurrency(
-              res.data.market_data.current_price.eur,
+              res.data.market_data.current_price[currency],
               currency
             ),
             high_24h: formatCurrency(
-              res.data.market_data.high_24h.eur,
+              res.data.market_data.high_24h[currency],
               currency
             ),
-            low_24h: formatCurrency(res.data.market_data.low_24h.eur, currency),
+            low_24h: formatCurrency(res.data.market_data.low_24h[currency], currency),
           },
         ]);
         setError('');

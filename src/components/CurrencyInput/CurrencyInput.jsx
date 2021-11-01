@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Dropdown, FormControl } from 'react-bootstrap';
-import { getCoinDetails } from '../../services/api';
+import { getSupportedCurrencies } from '../../services/api';
 import { useGlobalContext } from '../../context';
 import classes from './CurrencyInput.module.css';
 
@@ -55,8 +55,8 @@ const CurrencyInput = () => {
   useEffect(() => {
     const fetchCurrencies = async () => {
       try {
-        const res = await getCoinDetails('bitcoin');
-        setCurrencies(Object.keys(res.data.market_data.current_price));
+        const res = await getSupportedCurrencies();
+        setCurrencies(res.data);
       } catch (err) {
         setError(err.message);
       }
