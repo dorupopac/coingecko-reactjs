@@ -11,9 +11,22 @@ const Details = () => {
   const [tableData, setTableData] = useState({});
   const [coinDescription, setCoinDescription] = useState('');
   const [homepages, setHomePages] = useState([]);
-  const { loading, setLoading, currency } = useGlobalContext();
+  const {
+    loading,
+    setLoading,
+    currency,
+    error,
+    setError,
+    searchTerm,
+    setSearchTerm,
+  } = useGlobalContext();
   const location = useLocation();
-  
+
+  useEffect(() => {
+    if (error) setError('');
+    if (searchTerm) setSearchTerm('');
+  }, []);
+
   useEffect(() => {
     const coinId = location.pathname.substr(9);
     const getCoinDetailsParams = {};
@@ -40,6 +53,7 @@ const Details = () => {
     fetchDetails();
     // added these dependencies so the console doesn't cry
   }, [location.pathname, setLoading, currency]);
+
   return (
     <div className="m-sm-5 m-0 pt-5">
       {loading ? (
