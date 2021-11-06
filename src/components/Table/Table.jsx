@@ -2,7 +2,7 @@ import React from 'react';
 import HomeBtn from '../Utils/HomeBtn';
 import { Table } from 'react-bootstrap';
 import { Pagination } from 'react-bootstrap';
-import { useGlobalContext } from '../../context';
+import { useGlobalContext } from '../../hooks/global-context';
 import { Link } from 'react-router-dom';
 
 const TableComponent = ({
@@ -11,15 +11,15 @@ const TableComponent = ({
   prevPage,
   nextPage,
   decrementButtonDisable = false,
-  pageNo = 0,
+  pageNo = 1,
   containerClassName = '',
 }) => {
   const { error, setSearchTerm, searchTerm } = useGlobalContext();
 
   const resetSearchTerm = () => {
-    setSearchTerm('')
-  }
-  
+    setSearchTerm('');
+  };
+
   const getTableRow = () => {
     return tableData.map((rowObj, i) => {
       return (

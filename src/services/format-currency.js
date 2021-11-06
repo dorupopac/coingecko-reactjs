@@ -1,4 +1,4 @@
-import { currencyCodes } from './currencyCodes';
+import { currencyCodes } from './currency-codes';
 
 export const formatCurrency = (value, currency) => {
   if (currencyCodes.includes(currency.toLowerCase())) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Dropdown, FormControl } from 'react-bootstrap';
 import { getSupportedCurrencies } from '../../services/api';
-import { useGlobalContext } from '../../context';
+import { useGlobalContext } from '../../hooks/global-context';
 import classes from './CurrencyInput.module.css';
 
 const CustomMenu = React.forwardRef(
@@ -48,11 +48,6 @@ const CurrencyInput = () => {
     useGlobalContext();
 
   useEffect(() => {
-    const currency = localStorage.getItem('currency');
-    if (currency) setCurrency(currency);
-  }, [setCurrency]);
-
-  useEffect(() => {
     const fetchCurrencies = async () => {
       try {
         const res = await getSupportedCurrencies();
@@ -77,7 +72,7 @@ const CurrencyInput = () => {
   return (
     <Dropdown onToggle={handleToggle} className="mr-3">
       <Dropdown.Toggle variant="outline-light" id="navbar-dark-example">
-        {currency.toUpperCase()}
+        {currency ? currency.toUpperCase() : 'USD'}
       </Dropdown.Toggle>
 
       {listOfCurrenciesVisible && (

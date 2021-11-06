@@ -5,7 +5,7 @@ import classes from './HomeBtn.module.css';
 // font-awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
-import { useGlobalContext } from '../../context';
+import { useGlobalContext } from '../../hooks/global-context';
 
 const HomeBtn = () => {
   const { searchTerm, setSearchTerm } = useGlobalContext();

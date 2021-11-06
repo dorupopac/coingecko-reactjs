@@ -1,13 +1,23 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 
 const AppContext = React.createContext();
 
+const initCurr = localStorage.getItem('currency')
+  ? localStorage.getItem('currency')
+  : 'usd';
+
+const initPage = sessionStorage.getItem('page')
+  ? +sessionStorage.getItem('page')
+  : 1;
+
 const AppProvider = ({ children }) => {
+  const [tablePageNo, setTablePageNo] = useState(initPage);
+  const [detailsData, setDetailsData] = useState({});
   const [list, setList] = useState([]);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
-  const [currency, setCurrency] = useState('usd');
+  const [currency, setCurrency] = useState(initCurr);
   const [currencyInput, setCurrencyInput] = useState('');
 
   return (
@@ -25,15 +35,15 @@ const AppProvider = ({ children }) => {
         setCurrency,
         currencyInput,
         setCurrencyInput,
+        tablePageNo,
+        setTablePageNo,
+        detailsData,
+        setDetailsData,
       }}
     >
       {children}
     </AppContext.Provider>
   );
-};
-
-export const useGlobalContext = () => {
-  return useContext(AppContext);
 };
 
 export { AppContext, AppProvider };

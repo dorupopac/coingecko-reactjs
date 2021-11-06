@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useGlobalContext } from '../../context';
+import { useGlobalContext } from '../../hooks/global-context';
 import { getCoinDetails } from '../../services/api';
-import { formatCurrency } from '../../services/formatCurrency';
+import { formatCurrency } from '../../services/format-currency';
 import { Button, Form, FormControl } from 'react-bootstrap';
 
 const SearchInput = () => {
@@ -14,7 +14,7 @@ const SearchInput = () => {
 
   useEffect(() => {
     searchValue.current.focus();
-    searchValue.current.value = ''
+    searchValue.current.value = '';
   }, [searchTerm]);
 
   useEffect(() => {
@@ -40,7 +40,10 @@ const SearchInput = () => {
               res.data.market_data.high_24h[currency],
               currency
             ),
-            low_24h: formatCurrency(res.data.market_data.low_24h[currency], currency),
+            low_24h: formatCurrency(
+              res.data.market_data.low_24h[currency],
+              currency
+            ),
           },
         ]);
         setError('');

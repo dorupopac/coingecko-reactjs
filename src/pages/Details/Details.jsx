@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useGlobalContext } from '../../context';
+import { useGlobalContext } from '../../hooks/global-context';
 import { useLocation } from 'react-router-dom';
 import { getCoinDetails } from '../../services/api';
-import { formatCurrency } from '../../services/formatCurrency';
+import { formatCurrency } from '../../services/format-currency';
 import TableComponent from '../../components/Table/Table';
 import HomeBtn from '../../components/Utils/HomeBtn';
 import { Spinner } from 'react-bootstrap';
 
 const Details = () => {
-  const [tableData, setTableData] = useState({});
   const [coinDescription, setCoinDescription] = useState('');
   const [homepages, setHomePages] = useState([]);
   const {
@@ -19,6 +18,8 @@ const Details = () => {
     setError,
     searchTerm,
     setSearchTerm,
+    detailsData,
+    setDetailsData,
   } = useGlobalContext();
   const location = useLocation();
 
@@ -35,7 +36,7 @@ const Details = () => {
       setLoading(true);
       const res = await getCoinDetails(coinId, getCoinDetailsParams);
       if (res.data) {
-        setTableData({
+        setDetailsData({
           name: res.data.name,
           symbol: res.data.symbol,
           hashing_algorithm: res.data.hashing_algorithm,
@@ -51,6 +52,8 @@ const Details = () => {
       setLoading(false);
     };
     fetchDetails();
+
+    return () => setTimeout(() => setDetailsData({}), 200);
     // added these dependencies so the console doesn't cry
   }, [location.pathname, setLoading, currency]);
 
@@ -67,8 +70,8 @@ const Details = () => {
           <HomeBtn />
           <TableComponent
             containerClassName="mt-4"
-            headerData={Object.keys(tableData)}
-            tableData={[tableData]}
+            headerData={Object.keys(detailsData)}
+            tableData={[detailsData]}
             showPagination={false}
           />
           <div className="p-3">

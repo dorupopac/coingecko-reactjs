@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import TableComponent from '../../components/Table/Table';
 import { Spinner } from 'react-bootstrap';
-import { useGlobalContext } from '../../context';
+import { useGlobalContext } from '../../hooks/global-context';
 import { getCoinsMarket } from '../../services/api';
-import { formatCurrency } from '../../services/formatCurrency';
+import { formatCurrency } from '../../services/format-currency';
 
 const Home = () => {
-  const [tablePageNo, setTablePageNo] = useState(1);
   const {
     loading,
     list,
@@ -16,14 +15,14 @@ const Home = () => {
     setList,
     setError,
     currency,
+    tablePageNo,
+    setTablePageNo,
+    detailsData,
   } = useGlobalContext();
 
   useEffect(() => {
-    const initPage = sessionStorage.getItem('page');
-    if (initPage) setTablePageNo(+initPage);
-  }, []);
-
-  useEffect(() => {
+    // condition to not run this fetch again if coming back from details page
+    if (Object.keys(detailsData).length !== 0 && list.length > 1) return;
     const getCoinsMarketParams = {
       vs_currency: currency,
       per_page: 10,
