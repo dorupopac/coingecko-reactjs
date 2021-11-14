@@ -14,7 +14,7 @@ const AppProvider = ({ children }) => {
   const [tablePageNo, setTablePageNo] = useState(initPage);
   const [detailsData, setDetailsData] = useState({});
   const [list, setList] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [currency, setCurrency] = useState(initCurr);

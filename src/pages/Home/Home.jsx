@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TableComponent from '../../components/Table/Table';
 import { Spinner } from 'react-bootstrap';
 import { useGlobalContext } from '../../hooks/global-context';
@@ -17,12 +17,9 @@ const Home = () => {
     currency,
     tablePageNo,
     setTablePageNo,
-    detailsData,
   } = useGlobalContext();
 
   useEffect(() => {
-    // condition to not run this fetch again if coming back from details page
-    if (Object.keys(detailsData).length !== 0 && list.length > 1) return;
     const getCoinsMarketParams = {
       vs_currency: currency,
       per_page: 10,

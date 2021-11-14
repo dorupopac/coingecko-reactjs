@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useGlobalContext } from '../../hooks/global-context';
 import { useLocation } from 'react-router-dom';
 import { getCoinDetails } from '../../services/api';
@@ -8,8 +8,6 @@ import HomeBtn from '../../components/Utils/HomeBtn';
 import { Spinner } from 'react-bootstrap';
 
 const Details = () => {
-  const [coinDescription, setCoinDescription] = useState('');
-  const [homepages, setHomePages] = useState([]);
   const {
     loading,
     setLoading,
@@ -22,11 +20,12 @@ const Details = () => {
     setDetailsData,
   } = useGlobalContext();
   const location = useLocation();
+  const coinDescription = useRef('');
+  const homePages = useRef([]);
 
   useEffect(() => {
-    if (error) setError('');
     if (searchTerm) setSearchTerm('');
-  }, []);
+  }, [searchTerm, setSearchTerm]);
 
   useEffect(() => {
     const coinId = location.pathname.substr(9);
@@ -34,67 +33,79 @@ const Details = () => {
 
     const fetchDetails = async () => {
       setLoading(true);
-      const res = await getCoinDetails(coinId, getCoinDetailsParams);
-      if (res.data) {
-        setDetailsData({
-          name: res.data.name,
-          symbol: res.data.symbol,
-          hashing_algorithm: res.data.hashing_algorithm,
-          market_cap: formatCurrency(
-            res.data.market_data?.market_cap?.[currency],
-            currency
-          ),
-          genesis_date: res.data.genesis_date,
-        });
-        setCoinDescription(res.data.description.en);
-        setHomePages(res.data.links.homepage);
+      setError(null);
+
+      try {
+        const res = await getCoinDetails(coinId, getCoinDetailsParams);
+        if (res.data) {
+          setDetailsData({
+            name: res.data.name,
+            symbol: res.data.symbol,
+            hashing_algorithm: res.data.hashing_algorithm,
+            market_cap: formatCurrency(
+              res.data.market_data?.market_cap?.[currency],
+              currency
+            ),
+            genesis_date: res.data.genesis_date,
+          });
+          coinDescription.current = res.data.description.en;
+          homePages.current = res.data.links.homepage;
+        } else throw new Error("That coin doesn't exist!");
+      } catch (err) {
+        setError(err.message);
       }
       setLoading(false);
     };
     fetchDetails();
+  }, [location.pathname, setLoading, currency, setDetailsData, setError]);
 
-    return () => setTimeout(() => setDetailsData({}), 200);
-    // added these dependencies so the console doesn't cry
-  }, [location.pathname, setLoading, currency]);
-
-  return (
-    <div className="m-sm-5 m-0 pt-5">
-      {loading ? (
+  if (loading)
+    return (
+      <div className="m-sm-5 m-0 pt-5">
         <Spinner
           animation="border"
           variant="primary"
           className="spinner-center"
         />
-      ) : (
-        <>
-          <HomeBtn />
-          <TableComponent
-            containerClassName="mt-4"
-            headerData={Object.keys(detailsData)}
-            tableData={[detailsData]}
-            showPagination={false}
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="m-sm-5 m-0 pt-5">
+        <HomeBtn />
+        <h2 className="mt-4">{error}</h2>
+      </div>
+    );
+
+  return (
+    <div className="m-sm-5 m-0 pt-5">
+      <HomeBtn />
+      <TableComponent
+        containerClassName="mt-4"
+        headerData={Object.keys(detailsData)}
+        tableData={[detailsData]}
+        showPagination={false}
+      />
+      <div className="p-3">
+        {coinDescription && (
+          <p
+            dangerouslySetInnerHTML={{
+              __html: coinDescription.current.replaceAll(
+                '<a',
+                '<a target="_blank" rel="noreferrer"'
+              ),
+            }}
           />
-          <div className="p-3">
-            {coinDescription && (
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: coinDescription.replaceAll(
-                    '<a',
-                    '<a target="_blank" rel="noreferrer"'
-                  ),
-                }}
-              />
-            )}
-            <div className="d-flex flex-column">
-              {homepages.map((page, i) => (
-                <a key={page + i} href={page} target="_blank" rel="noreferrer">
-                  {page}
-                </a>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
+        )}
+        <div className="d-flex flex-column">
+          {homePages.current.map((page, i) => (
+            <a key={page + i} href={page} target="_blank" rel="noreferrer">
+              {page}
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

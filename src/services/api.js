@@ -19,7 +19,6 @@ const buildParams = params => {
   return finalQuery;
 };
 
-// TODO reqParams to be array
 const validateParams = (params, reqParams) => {
   let isValid = params !== undefined;
 
@@ -41,10 +40,9 @@ export const getCoinsMarket = async params => {
     const parsedParams = buildParams(params);
     try {
       const res = await instance.get(`/coins/markets${parsedParams}`);
-      if (res.error) return {};
       return { data: res.data };
-    } catch (error) {
-      return { error };
+    } catch (err) {
+      return { error: err.message };
     }
   } else {
     return {
